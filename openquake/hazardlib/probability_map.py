@@ -148,7 +148,7 @@ class ProbabilityMap(dict):
         """
         sid2idx = {sid: i for i, sid in enumerate(hdf5item.attrs['sids'])}
         _N, L, I = hdf5item.shape
-        self = cls.build(L, I, sids)
+        self = cls(L, I)
         for sid in sids:
             try:
                 idx = sid2idx[sid]
@@ -279,13 +279,12 @@ class ProbabilityMap(dict):
 
 def get_shape(pmaps):
     """
-    :param pmaps: a set of homogenous ProbabilityMaps
+    :param pmaps: a set of homogeneous ProbabilityMaps
     :returns: the common shape (N, L, I)
     """
+    sids = set()
     for pmap in pmaps:
-        if pmap:
-            sid = next(iter(pmap))
-            break
-    else:
+        sids.update(pmap)
+    if not sids:
         raise ValueError('All probability maps where empty!')
-    return (len(pmap),) + pmap[sid].array.shape
+    return (len(sids),) + pmap[sids.pop()].array.shape
