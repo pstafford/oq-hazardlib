@@ -283,8 +283,34 @@ def get_shape(pmaps):
     :returns: the common shape (N, L, I)
     """
     sids = set()
+    shp = set()
     for pmap in pmaps:
-        sids.update(pmap)
+        if pmap:
+            sids.update(pmap)
+            sid = next(iter(pmap))
+            shp.add(pmap[sid].array.shape)
     if not sids:
         raise ValueError('All probability maps where empty!')
-    return (len(sids),) + pmap[sids.pop()].array.shape
+    if len(shp) > 1:
+        raise ValueError('Probability curves with different shapes: %s' % shp)
+    return (len(sids),) + shp.pop()
+
+
+def get_shape2(pmaps):
+    """
+    :param pmaps: a set of homogeneous ProbabilityMaps
+    :returns: the common shape (N, L)
+    """
+    sids = set()
+    levels = set()
+    for pmap in pmaps:
+        if pmap:
+            sids.update(pmap)
+            sid = next(iter(pmap))
+            levels.add(len(pmap[sid].array))
+    if not sids:
+        raise ValueError('All probability maps where empty!')
+    if len(levels) > 1:
+        raise ValueError('Probability curves with different levels: %s'
+                         % levels)
+    return len(sids), levels.pop()
