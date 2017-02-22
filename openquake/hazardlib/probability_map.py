@@ -138,7 +138,7 @@ class ProbabilityMap(dict):
         for sid, poes in zip(sids, array):
             self[sid] = ProbabilityCurve(poes)
         return self
-
+        
     @classmethod
     def read(cls, hdf5item, sids):
         """
