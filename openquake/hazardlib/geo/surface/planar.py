@@ -138,6 +138,8 @@ class PlanarSurface(BaseQuadrilateralSurface):
         tolerance = (self.width * self.length *
                      self.IMPERFECT_RECTANGLE_TOLERANCE)
         if numpy.max(numpy.abs(dists)) > tolerance:
+            print(numpy.abs(dists))
+            print(tolerance)
             raise ValueError("corner points do not lie on the same plane")
         if length2 < 0:
             raise ValueError("corners are in the wrong order")
