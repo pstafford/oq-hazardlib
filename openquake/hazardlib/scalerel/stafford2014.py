@@ -29,7 +29,7 @@ class Stafford2014(BaseMSRSigma):
     Stafford magnitude -- rupture dimension relationships,
     see 2014, Bull. Seism. Soc. Am., vol. 104, no. 4, pages 1620-1635.
 
-    Implements magnitude-area, magnitude-width and magnitude length scaling relationships.
+    Implements magnitude-area scaling relationships.
     """
     def get_median_area(self, mag, rake, dip, seismogenic_depth):
         """
